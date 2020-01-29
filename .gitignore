@@ -1,0 +1,5 @@
+y.*
+*.out
+lex.yy.c
+.vscode/
+mycc
