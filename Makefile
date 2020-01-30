@@ -4,10 +4,10 @@ SOURCES = ast.c parser.tab.c lex.yy.c main.c
 TEST_SOURCE_FILE = test/hello.c
 
 debug: build
-	./$(OBJ) -D < $(TEST_SOURCE_FILE)
+	./$(OBJ) $(TEST_SOURCE_FILE) -D
 
 test: build
-	./$(OBJ) < $(TEST_SOURCE_FILE)
+	./$(OBJ) $(TEST_SOURCE_FILE)
 
 build: $(SOURCES)
 	$(CC) $^ -o $(OBJ)

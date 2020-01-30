@@ -2,20 +2,29 @@
 #include <stdio.h>
 #include "ast.h"
 
-Ast* newNode(char* type) {
+Ast* newNode(char* type, char* value, Ast* left, Ast* right) {
     Ast* ast = (Ast*) malloc(sizeof(Ast));
     ast->type = type;
+    ast->value = value;
+    ast->left = left;
+    ast->right = right;
     return ast;
 }
 
-Ast* newIncludeStatement(char* libName) {
-    Ast* ast = newNode("include");
-    ast->value = libName;
-    return ast;
+void printIndent(int depth) {
+    for (int i = 0; i < depth; ++i) {
+        printf("  ");
+    }
 }
 
-void showAst(Ast* ast) {
-    printf("--Ast start:-----------------------\n");
+void showAst(Ast* ast, int depth) {
+    printIndent(depth);
     printf("<%s, %s>\n", ast->type, ast->value);
-    printf("--Ast end:-------------------------\n");
+    if (ast->left) {
+        showAst(ast->left, depth + 1);
+    }
+
+    if (ast->right) {
+        showAst(ast->right, depth + 1);
+    }
 }
