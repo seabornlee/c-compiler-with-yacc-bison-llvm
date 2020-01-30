@@ -22,7 +22,9 @@ void yyerror(const char* msg);
 %token<sValue> ID
 %token<sValue> STRING
 
-%type <pAst> Program Include FuncDefinition Signature Params Body Type Statement Declaration Expression
+%type <pAst> Program Include FuncDefinition Signature
+ Params Body Type Statements Statement Declaration
+ Expression CallStatement Parameters Parameter AssignStatement
 %%
 Program: Include FuncDefinition { $$ = newNode("Program", NULL, $1, $2); }
 | Program EOP {
@@ -40,10 +42,29 @@ FuncDefinition: Signature Body { $$ = newNode("Function", NULL, $1, $2); }
 Signature: Type ID '(' Params ')' { $$ = newNode("Signature", $2, $4, NULL); }
 ;
 
-Body: '{' Statement '}' { $$ = newNode("Statements", NULL, $2, NULL); }
+Body: '{' Statements '}' { $$ = newNode("Body", NULL, $2, NULL); }
 ;
 
-Statement: Declaration ASSIGN Expression ';' { $$ = newNode("Statement", "=", $1, $3); }
+Statements: Statement Statements { $$ = newNode("List", NULL, $1, $2); }
+| Statement { $$ = $1; }
+;
+
+Statement: AssignStatement { $$ = $1; }
+| CallStatement ';' { $$ = $1; }
+;
+
+AssignStatement: Declaration ASSIGN Expression ';' { $$ = newNode("Assign", "=", $1, $3); }
+;
+
+CallStatement: ID '(' Parameters ')' { $$ = newNode("Call", $1, $3, NULL); }
+;
+
+Parameters: Parameter ',' Parameters  { $$ = newNode("List", NULL, $1, $3); }
+| Parameter { $$ = $1; }
+;
+
+Parameter: STRING { $$ = newNode("String", $1, NULL, NULL); }
+| ID { $$ = newNode("ID", $1, NULL, NULL); }
 ;
 
 Expression: STRING { $$ = newNode("String", $1, NULL, NULL); }
