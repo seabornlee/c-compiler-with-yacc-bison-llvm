@@ -1,18 +1,22 @@
-CC = gcc
+CC = gcc -g
 OBJ = mycc
+SOURCES = ast.c parser.tab.c lex.yy.c main.c
 TEST_SOURCE_FILE = test/hello.c
+
+debug: build
+	./$(OBJ) -D < $(TEST_SOURCE_FILE)
 
 test: build
 	./$(OBJ) < $(TEST_SOURCE_FILE)
 
-build: main.c lex.yy.c y.tab.c
+build: $(SOURCES)
 	$(CC) $^ -o $(OBJ)
 
 lex.yy.c: scanner.l
 	flex $<
 
-y.tab.c: parser.y
-	bison -vdty $<
+parser.tab.c: parser.y
+	bison -vdt $<
 
 clean:
 	rm lex.yy.c y.*

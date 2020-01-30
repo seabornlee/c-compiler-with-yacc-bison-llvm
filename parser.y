@@ -1,14 +1,32 @@
 %{
 #include <stdio.h>
+#include <stdlib.h>
+#include "./ast.h"
+
 void yyerror(const char* msg);
 int yylex(void);
 %}
 
-%token EOP
+%define parse.error verbose
+%token INCLUDE EOP
 
+%union {
+  char* sValue;
+  struct ast* pAst;
+}
+
+%token<sValue> ID
+
+%type <pAst> Program Include
 %%
+Program: Include  { $$ = $1; }
+| Program EOP {
+		showAst($1);
+		exit(0);
+ 	      }
+;
 
-eop: { printf("Parse Complete!\n"); }
+Include: '#' INCLUDE '<' ID '.' ID '>' { $$ = newIncludeStatement($4); }
 ;
 %%
 

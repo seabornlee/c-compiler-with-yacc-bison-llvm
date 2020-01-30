@@ -1,9 +1,17 @@
 %option noyywrap
 
 %{
-#include "y.tab.h"
+#include "parser.tab.h"
 %}
 
 %%
-<<EOF>> return EOP;
+"#" |
+"<" |
+">" |
+"."         { return yytext[0]; }
+"include"     { return INCLUDE; }
+[a-zA-Z]+   { yylval.sValue = strdup(yytext); return ID; }
+[ ]         {}
+<<EOF>>     { return EOP; }
 %%
+
