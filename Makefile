@@ -1,4 +1,4 @@
-CC = gcc -g
+CC = gcc -g -Werror
 OBJ = mycc
 SOURCES = ast.c parser.tab.c lex.yy.c main.c
 TEST_SOURCE_FILE = test/hello.c

@@ -1,3 +1,7 @@
+%code requires {
+int yylex();
+}
+
 %{
 #include <stdio.h>
 #include <stdlib.h>
