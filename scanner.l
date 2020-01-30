@@ -5,8 +5,8 @@
 %}
 
 %%
-"int"       { return INT; }
-"char"       { return CHAR; }
+"int"           { return INT; }
+"char"          { return CHAR; }
 
 "#" |
 "<" |
@@ -20,12 +20,12 @@
 "{" |
 "}" |
 ";" |
-"."         { return yytext[0]; }
-"include"     { return INCLUDE; }
-[a-zA-Z]+   { yylval.sValue = strdup(yytext); return ID; }
-\"[^\"]*\"  { yylval.sValue = strdup(yytext); return STRING; }
-"="         { yylval.sValue = strdup(yytext); return ASSIGN; };
-[ ]         {}
-\n          {}
-<<EOF>>     { return EOP; }
+"."             { return yytext[0]; }
+"include"       { return INCLUDE; }
+[a-zA-Z]+       { yylval.sValue = strdup(yytext); return ID; }
+\"[^\"]*\"      { yylval.sValue = strdup(yytext); return STRING; }
+"="             { yylval.sValue = strdup(yytext); return ASSIGN; }
+[ ]             {}
+\n              {}
+<<EOF>>         { return EOP; }
 %%

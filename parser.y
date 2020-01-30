@@ -4,7 +4,6 @@
 #include "./ast.h"
 
 void yyerror(const char* msg);
-int yylex(void);
 %}
 
 %define parse.error verbose
