@@ -29,6 +29,7 @@ void yyerror(const char* msg);
 Program: Include FuncDefinition { $$ = newNode("Program", NULL, $1, $2); }
 | Program EOP {
 		showAst($1, 0);
+		freeAst($1);
 		exit(0);
  	      }
 ;

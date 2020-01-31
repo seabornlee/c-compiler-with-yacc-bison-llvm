@@ -28,3 +28,13 @@ void showAst(Ast* ast, int depth) {
         showAst(ast->right, depth + 1);
     }
 }
+
+void freeAst(Ast* ast) {
+    if (ast == NULL) {
+        return;
+    }
+
+    freeAst(ast->left);
+    freeAst(ast->right);
+    free(ast);
+}
