@@ -16,13 +16,13 @@ void yyerror(const char* msg);
 
 %union {
   char* sValue;
-  struct ast* pAst;
+  struct ast* node;
 }
 
 %token<sValue> ID
 %token<sValue> STRING
 
-%type <pAst> Program Include FuncDefinition Signature
+%type <node> Program Include FuncDefinition Signature
  Params Body Type Statements Statement Declaration
  Expression CallStatement Parameters Parameter AssignStatement
 %%
