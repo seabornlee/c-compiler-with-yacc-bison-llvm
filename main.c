@@ -17,7 +17,10 @@ int main(int argc, char* argv[]) {
     if (isDebugMode) {
         printTokens();
     } else {
+        extern Ast* astRoot;
         yyparse();
+        showAst(astRoot, 0);
+        freeAst(astRoot);
     }
 
     fclose(yyin);

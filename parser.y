@@ -8,6 +8,7 @@ int yylex();
 #include "./ast.h"
 
 void yyerror(const char* msg);
+Ast* astRoot;
 %}
 
 %define parse.error verbose
@@ -26,12 +27,8 @@ void yyerror(const char* msg);
  Params Body Type Statements Statement Declaration
  Expression CallStatement Parameters Parameter AssignStatement
 %%
-Program: Include FuncDefinition { $$ = newNode("Program", NULL, $1, $2); }
-| Program EOP {
-		showAst($1, 0);
-		freeAst($1);
-		exit(0);
- 	      }
+Program: Include FuncDefinition { astRoot = newNode("Program", NULL, $1, $2); }
+| Program EOP { return 0; }
 ;
 
 Include: '#' INCLUDE '<' ID '.' ID '>' { $$ = newNode("Include", $4, NULL, NULL); }
