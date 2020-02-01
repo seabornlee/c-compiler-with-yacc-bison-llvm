@@ -1,6 +1,6 @@
 CC = gcc -g -Werror
 OBJ = mycc
-SOURCES = ast.c parser.tab.c lex.yy.c main.c
+SOURCES = ast.c parser.tab.c lex.yy.c genllvm.c main.c
 TEST_SOURCE_FILE = test/hello.c
 
 debug: build
