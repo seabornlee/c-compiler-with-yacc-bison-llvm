@@ -39,3 +39,7 @@ char *toString(StringList *list) {
     }
     return buffer;
 }
+
+bool isEmpty(StringList* list) {
+    return list->sizeOfValues == 0;
+}

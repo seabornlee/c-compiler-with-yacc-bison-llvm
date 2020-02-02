@@ -2,7 +2,7 @@
 #include "./parser.tab.h"
 #include "./ast.h"
 #include "./genllvm.h"
-#define bool int
+#include "./utils.h"
 
 void printTokens() {
     enum yytokentype token;
@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
     } else {
         extern Ast* astRoot;
         yyparse();
-        //showAst(astRoot, 0);
+        showAst(astRoot, 0);
         char* code = genLLVMCode(astRoot);
         printf("%s\n", code);
         freeAst(astRoot);
