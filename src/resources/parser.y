@@ -5,7 +5,7 @@ int yylex();
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include "./ast.h"
+#include "ast.h"
 
 void yyerror(const char* msg);
 Ast* astRoot;

@@ -1,8 +1,11 @@
-parser.tab.*
 *.output
-lex.yy.c
 .vscode/
 mycc
+obj/
+cmake-build-debug/
+compile_commands.json
+hello.ll
+parser.tab.*
 
 # Created by https://www.gitignore.io/api/macos
 # Edit at https://www.gitignore.io/?templates=macos

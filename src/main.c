@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include "./parser.tab.h"
-#include "./ast.h"
-#include "./genllvm.h"
-#include "./utils.h"
+#include "parser.tab.h"
+#include "ast.h"
+#include "genllvm.h"
+#include "utils.h"
 
 void printTokens() {
     enum yytokentype token;
