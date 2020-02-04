@@ -6,7 +6,7 @@ test: build
 	cd $(TEST_DIR) && ctest -V
 
 build: checkout
-	mkdir $(BUILD_DIR) && cd $(BUILD_DIR) && cmake .. && make all
+	cd $(BUILD_DIR) || (mkdir $(BUILD_DIR) && cd $(BUILD_DIR)) && cmake .. && make all
 
 check: checkout
 	cppcheck --error-exitcode=1 -i lib -i build -i cmake-build-debug .
