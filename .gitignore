@@ -2,6 +2,7 @@
 .vscode/
 mycc
 obj/
+build/
 cmake-build-debug/
 compile_commands.json
 hello.ll
