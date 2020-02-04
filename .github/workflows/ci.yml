@@ -8,9 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: cppcheck
-        run:
-          sudo apt-get update && sudo apt-get -y install cppcheck && make check
+      - name: install cppcheck
+        run: sudo apt-get update && sudo apt-get -y install cppcheck
+      - name: run cppcheck
+        run: make check
 
   test:
     name: Run tests
