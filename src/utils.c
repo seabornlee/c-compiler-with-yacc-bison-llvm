@@ -11,13 +11,11 @@ char *replace(char* origin, char *oldString, char *newString) {
     StringList *list = initStringList();
     int length = strlen(origin);
     int lengthOfOldString = strlen(oldString);
-    int lengthOfNewString = strlen(newString);
     int start = 0;
-    int lengthOfBuffer = 0;
     for (int i = 0; i < length; ++i) {
         bool isEqual = !strncmp(&origin[i], oldString, lengthOfOldString);
         if (isEqual) {
-            char *buffer = (char *) malloc(length);
+            char *buffer = (char *) malloc(i - start);
             memcpy(buffer, &origin[start], i - start);
             add(list, buffer);
             add(list, newString);

@@ -3,12 +3,17 @@
 #include "string_list.h"
 
 StringList *initStringList() {
-    return (StringList *) malloc(sizeof(StringList));
+    StringList *list = (StringList *) malloc(sizeof(StringList));
+    list->head = NULL;
+    list->last = NULL;
+    list->sizeOfValues = 0;
+    return list;
 }
 
 ListNode *newListNode(char *string) {
     ListNode *node = (ListNode *) malloc(sizeof(ListNode));
     node->value = string;
+    node->next = NULL;
     return node;
 }
 
