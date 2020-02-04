@@ -9,8 +9,6 @@ typedef struct ast {
 } Ast;
 
 Ast* newNode(char* type, char* value, Ast* left, Ast* right);
-Ast* newNodeWithValue(char* type, char* value);
-Ast* newIncludeStatement(char* libName);
 void showAst(Ast* ast, int depth);
 void freeAst(Ast* ast);
 
