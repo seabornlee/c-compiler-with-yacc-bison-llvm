@@ -32,16 +32,24 @@ void visitNode(Ast *node, StringList *buffer, StringList *stringConstants) {
 
 }
 
+int lengthOf(char *string) {
+    char *result = replace(string, "\\0A", "$");
+    return strlen(result) + 1;
+}
+
 char *genStringConstantCode(char *string, int index) {
     char *formattedString = replace(string, "\\n", "\\0A");
     char *template = "@.str%s = private unnamed_addr constant [%d x i8] c\"%s\\00\", align 1\n";
     char *suffix = (char *) malloc(10);
+    memset(suffix, 0, 10);
     if (index > 0) {
         sprintf(suffix, ".%d", index);
     }
 
-    char *code = (char *) malloc(strlen(suffix) + strlen(template) + strlen(formattedString));
-    sprintf(code, template, suffix, strlen(formattedString) + 1, formattedString);
+    int size = strlen(suffix) + strlen(template) + strlen(formattedString);
+    char *code = (char *) malloc(size);
+    memset(code, 0, size);
+    sprintf(code, template, suffix, lengthOf(formattedString), formattedString);
     return code;
 }
 
@@ -56,12 +64,18 @@ char *genStringConstantsCode(StringList *list) {
         index++;
     }
 
-    return toString(buffer);
+    char *code = toString(buffer);
+    free(buffer);
+    return code;
 }
 
 char *concat(char *stringOne, char *stringTwo) {
-    char *buffer = (char *) malloc(strlen(stringOne) + strlen(stringTwo));
+    size_t size = strlen(stringOne) + strlen(stringTwo);
+    char *buffer = (char *) malloc(size);
+    memset(buffer, 0, size);
     sprintf(buffer, "%s%s", stringOne, stringTwo);
+    free(stringOne);
+    free(stringTwo);
     return buffer;
 }
 
@@ -70,5 +84,8 @@ char *genLLVMCode(Ast *ast) {
     StringList *stringConstants = initStringList();
     visitNode(ast, buffer, stringConstants);
     char *constantsCode = genStringConstantsCode(stringConstants);
-    return concat(constantsCode, toString(buffer));
+    char *code = concat(constantsCode, toString(buffer));
+    free(buffer);
+    free(stringConstants);
+    return code;
 }

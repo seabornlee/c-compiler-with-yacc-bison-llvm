@@ -36,7 +36,7 @@ ListNode* getFirstOf(StringList *list) {
 
 char *toString(StringList *list) {
     char *buffer = (char *) malloc(list->sizeOfValues);
-
+    memset(buffer, 0, list->sizeOfValues);
     ListNode* node = getFirstOf(list);
     while (node) {
         strcat(buffer, node->value);
