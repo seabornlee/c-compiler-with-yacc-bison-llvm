@@ -4,7 +4,45 @@
 #include "string_list.h"
 #include "utils.h"
 
+char *genTypeCode(char *type) {
+    if (equals(type, "int"))
+        return "i32";
+    return "i8*";
+}
+
+char *genTypeCodeFromDeclaration(Ast *declarationNode) {
+    char *typeCode = genTypeCode(declarationNode->left->value);
+
+    if (equals(declarationNode->type, "Array")) {
+        return concat(typeCode, "*");
+    }
+
+    return typeCode;
+}
+
+char *genParamsTypeCode(Ast *paramsNode) {
+    char *template = "%s, %s";
+    char *buffer = (char *) malloc(20);
+    memset(buffer, 0, 20);
+    sprintf(buffer, template, genTypeCodeFromDeclaration(paramsNode->left), genTypeCodeFromDeclaration(paramsNode->right));
+    return buffer;
+}
+
+char *generateFunctionDefinitionCode(Ast *node) {
+    char *name = node->left->value;
+    char *returnType = genTypeCode(node->value);
+    char *paramsType = genParamsTypeCode(node->left->left);
+    char *template = "\ndefine %s @%s(%s) {\n}";
+    char *buffer = (char *) malloc(100);
+    memset(buffer, 0, 100);
+    sprintf(buffer, template, returnType, name, paramsType);
+    return buffer;
+}
+
 char *toCode(Ast *node) {
+    if (equals(node->type, "Function")) {
+        return generateFunctionDefinitionCode(node);
+    }
     return "";
 }
 
@@ -67,16 +105,6 @@ char *genStringConstantsCode(StringList *list) {
     char *code = toString(buffer);
     free(buffer);
     return code;
-}
-
-char *concat(char *stringOne, char *stringTwo) {
-    size_t size = strlen(stringOne) + strlen(stringTwo);
-    char *buffer = (char *) malloc(size);
-    memset(buffer, 0, size);
-    sprintf(buffer, "%s%s", stringOne, stringTwo);
-    free(stringOne);
-    free(stringTwo);
-    return buffer;
 }
 
 char *genLLVMCode(Ast *ast) {

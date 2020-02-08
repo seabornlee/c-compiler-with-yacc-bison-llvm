@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "utils.h"
 #include "string_list.h"
 
@@ -29,4 +30,12 @@ char *replace(char* origin, char *oldString, char *newString) {
     }
 
     return toString(list);
+}
+
+char *concat(char *stringOne, char *stringTwo) {
+    size_t size = strlen(stringOne) + strlen(stringTwo);
+    char *buffer = (char *) malloc(size);
+    memset(buffer, 0, size);
+    sprintf(buffer, "%s%s", stringOne, stringTwo);
+    return buffer;
 }

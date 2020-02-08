@@ -13,8 +13,8 @@ char *compileToLLVMCode(char *filePath) {
 
     extern Ast* astRoot;
     yyparse();
+    showAst(astRoot, 0);
     char* code = genLLVMCode(astRoot);
-
     freeAst(astRoot);
     fclose(yyin);
     return code;

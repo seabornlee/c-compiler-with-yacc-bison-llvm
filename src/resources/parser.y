@@ -34,10 +34,10 @@ Program: Include FuncDefinition { astRoot = newNode("Program", NULL, $1, $2); }
 Include: '#' INCLUDE '<' ID '.' ID '>' { $$ = newNode("Include", $4, NULL, NULL); }
 ;
 
-FuncDefinition: Signature Body { $$ = newNode("Function", NULL, $1, $2); }
+FuncDefinition: Type Signature Body { $$ = newNode("Function", $1->value, $2, $3); }
 ;
 
-Signature: Type ID '(' Params ')' { $$ = newNode("Signature", $2, $4, NULL); }
+Signature: ID '(' Params ')' { $$ = newNode("Signature", $1, $3, NULL); }
 ;
 
 Body: '{' Statements '}' { $$ = newNode("Body", NULL, $2, NULL); }
@@ -68,8 +68,8 @@ Parameter: STRING { $$ = newNode("String", $1, NULL, NULL); }
 Expression: STRING { $$ = newNode("String", $1, NULL, NULL); }
 ;
 
-Declaration: Type ID { $$ = newNode("Declaration", $2, $1, NULL); }
-| Type ID '[' ']' { $$ = newNode("DeclarationArray", $2, $1, NULL); }
+Declaration: Type ID { $$ = newNode("Variable", $2, $1, NULL); }
+| Type ID '[' ']' { $$ = newNode("Array", $2, $1, NULL); }
 ;
 
 Type: INT	{ $$ = newNode("Type", "int", NULL, NULL); }
