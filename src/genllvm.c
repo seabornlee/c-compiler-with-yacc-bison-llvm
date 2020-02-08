@@ -22,8 +22,7 @@ char *genTypeCodeFromDeclaration(Ast *declarationNode) {
 
 char *genParamsTypeCode(Ast *paramsNode) {
     char *template = "%s, %s";
-    char *buffer = (char *) malloc(20);
-    memset(buffer, 0, 20);
+    char *buffer = newString(10);
     sprintf(buffer, template, genTypeCodeFromDeclaration(paramsNode->left), genTypeCodeFromDeclaration(paramsNode->right));
     return buffer;
 }
@@ -33,8 +32,7 @@ char *generateFunctionDefinitionCode(Ast *node) {
     char *returnType = genTypeCode(node->value);
     char *paramsType = genParamsTypeCode(node->left->left);
     char *template = "\ndefine %s @%s(%s) {\n}";
-    char *buffer = (char *) malloc(100);
-    memset(buffer, 0, 100);
+    char *buffer = newString(50);
     sprintf(buffer, template, returnType, name, paramsType);
     return buffer;
 }
@@ -48,7 +46,7 @@ char *toCode(Ast *node) {
 
 char *removeQuote(char *string) {
     int length = strlen(string) - 2;
-    char *buffer = (char *) malloc(length);
+    char *buffer = newString(length);
     memcpy(buffer, &string[1], length);
     return buffer;
 }
@@ -78,15 +76,13 @@ int lengthOf(char *string) {
 char *genStringConstantCode(char *string, int index) {
     char *formattedString = replace(string, "\\n", "\\0A");
     char *template = "@.str%s = private unnamed_addr constant [%d x i8] c\"%s\\00\", align 1\n";
-    char *suffix = (char *) malloc(10);
-    memset(suffix, 0, 10);
+    char *suffix = newString(10);
     if (index > 0) {
         sprintf(suffix, ".%d", index);
     }
 
     int size = strlen(suffix) + strlen(template) + strlen(formattedString);
-    char *code = (char *) malloc(size);
-    memset(code, 0, size);
+    char *code = newString(size);
     sprintf(code, template, suffix, lengthOf(formattedString), formattedString);
     return code;
 }

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "string_list.h"
+#include "utils.h"
 
 StringList *initStringList() {
     StringList *list = (StringList *) malloc(sizeof(StringList));
@@ -35,8 +36,7 @@ ListNode* getFirstOf(StringList *list) {
 }
 
 char *toString(StringList *list) {
-    char *buffer = (char *) malloc(list->sizeOfValues);
-    memset(buffer, 0, list->sizeOfValues);
+    char *buffer = newString(list->sizeOfValues);
     ListNode* node = getFirstOf(list);
     while (node) {
         strcat(buffer, node->value);
